@@ -16,6 +16,31 @@ tetromino[0].append(L"..X.");
 tetromino[0].append(L"..X.");
 tetromino[0].append(L"..X.");
 
+tetromino[0].append(L"..X.");
+tetromino[0].append(L"..X.");
+tetromino[0].append(L"..X.");
+tetromino[0].append(L"..X.");
+
+tetromino[0].append(L"..X.");
+tetromino[0].append(L"..X.");
+tetromino[0].append(L"..X.");
+tetromino[0].append(L"..X.");
+
+tetromino[0].append(L"..X.");
+tetromino[0].append(L"..X.");
+tetromino[0].append(L"..X.");
+tetromino[0].append(L"..X.");
+
+tetromino[0].append(L"..X.");
+tetromino[0].append(L"..X.");
+tetromino[0].append(L"..X.");
+tetromino[0].append(L"..X.");
+
+tetromino[0].append(L"..X.");
+tetromino[0].append(L"..X.");
+tetromino[0].append(L"..X.");
+tetromino[0].append(L"..X.");
+
 	
 	return 0;
 }
