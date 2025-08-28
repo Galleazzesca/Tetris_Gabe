@@ -5,7 +5,7 @@ wsrtring tetromino[7];
 
 int main()
 {
-
+ // create assests
 
 
 
