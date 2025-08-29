@@ -11,35 +11,35 @@ tetromino[0].append(L"..X.");
 tetromino[0].append(L"..X.");
 tetromino[0].append(L"..X.");
 
-tetromino[0].append(L"..X.");
-tetromino[0].append(L"..X.");
-tetromino[0].append(L"..X.");
-tetromino[0].append(L"..X.");
+tetromino[1].append(L"..X.");
+tetromino[1].append(L"..X.");
+tetromino[1].append(L"..X.");
+tetromino[1].append(L"..X.");
 
-tetromino[0].append(L"..X.");
-tetromino[0].append(L"..X.");
-tetromino[0].append(L"..X.");
-tetromino[0].append(L"..X.");
+tetromino[2].append(L"..X.");
+tetromino[2].append(L"..X.");
+tetromino[2].append(L"..X.");
+tetromino[2].append(L"..X.");
 
-tetromino[0].append(L"..X.");
-tetromino[0].append(L"..X.");
-tetromino[0].append(L"..X.");
-tetromino[0].append(L"..X.");
+tetromino[3].append(L"..X.");
+tetromino[3].append(L"..X.");
+tetromino[3].append(L"..X.");
+tetromino[3].append(L"..X.");
 
-tetromino[0].append(L"..X.");
-tetromino[0].append(L"..X.");
-tetromino[0].append(L"..X.");
-tetromino[0].append(L"..X.");
+tetromino[4].append(L"..X.");
+tetromino[4].append(L"..X.");
+tetromino[4].append(L"..X.");
+tetromino[4].append(L"..X.");
 
-tetromino[0].append(L"..X.");
-tetromino[0].append(L"..X.");
-tetromino[0].append(L"..X.");
-tetromino[0].append(L"..X.");
+tetromino[5].append(L"..X.");
+tetromino[5].append(L"..X.");
+tetromino[5].append(L"..X.");
+tetromino[5].append(L"..X.");
 
-tetromino[0].append(L"..X.");
-tetromino[0].append(L"..X.");
-tetromino[0].append(L"..X.");
-tetromino[0].append(L"..X.");
+tetromino[6].append(L"..X.");
+tetromino[6].append(L"..X.");
+tetromino[6].append(L"..X.");
+tetromino[6].append(L"..X.");
 
 	
 	return 0;
