@@ -2,7 +2,15 @@
 using namespace std;
 
 wsrtring tetromino[7];
+int nFeildWidth = 12;
+int nFeildHeight = 18;
+unsigned char *pFeild = nullptr;
 
+int Rotate(int px, int py, int r)
+{
+    Switch (r % 4)
+    {
+case 0: return py * 4 + px;           // 0 degrees 
 int main()
 {
  // create assests
