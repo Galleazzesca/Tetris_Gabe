@@ -78,6 +78,11 @@ int main()
 	while (!bGameOver)
 	{
 
+        // Draw Feild
+		for (int x = 0; x < nFeildWidth; x++)
+			for (int y = 0; y < nFeildHeight; y++)
+				screen[(y + 2)*nScreenWidth + (x + 2)] = L" ABCDEFG=#"[pFeild[y*nFeildWidth + x]];
+		
 		// Dsiplay Frame
 		WriteConsoleOutputCharacter(hConsole, screen, nScreenWidth * nScreenHeight, { 0,0
 	}
