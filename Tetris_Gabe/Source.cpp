@@ -4,8 +4,8 @@ using namespace std;
 #include <Windows.h>
 
 wsrtring tetromino[7];
-int nFeildWidth = 12;
-int nFeildHeight = 18;
+int nFieldWidth = 12;
+int nFieldHeight = 18;
 unsigned char *pFeild = nullptr;
 
 int nScreenWidth = 80;          // Console Screen Size X (Columns)
@@ -62,10 +62,10 @@ int main()
 	tetromino[6].append(L".X..");
 	tetromino[6].append(L".X..");
 
-	pFeild =  new unsigned char[nFeildWidth*nFeildHieght]; // Create play feild buffer
-	 for (int x = 0; x < nFeildWitdth; x++) // Board Boundary
-		 for (int y = 0; y < nFeildHeight; y++)
-			 pFeild[y*nFeildWidth + x] = (x == 0 || x == nFeildWidth - 1 || y == nFeildHeight - 1) ? 9 : 0;
+	pField =  new unsigned char[nFieldWidth*nFieldHieght]; // Create play field buffer
+	 for (int x = 0; x < nFieldWitdth; x++) // Board Boundary
+		 for (int y = 0; y < nFieldHeight; y++)
+			 pFeild[y*nFieldWidth + x] = (x == 0 || x == nFieldWidth - 1 || y == nFieldHeight - 1) ? 9 : 0;
 
     wchar_t *screen = new wchar_t[nScreenWitdh*nScreenHeight];
     for (int i = 0; i < nScreenWidth*nScreenHeight; i++) screen[i] = L' ';
@@ -78,10 +78,10 @@ int main()
 	while (!bGameOver)
 	{
 
-        // Draw Feild
-		for (int x = 0; x < nFeildWidth; x++)
-			for (int y = 0; y < nFeildHeight; y++)
-				screen[(y + 2)*nScreenWidth + (x + 2)] = L" ABCDEFG=#"[pFeild[y*nFeildWidth + x]];
+        // Draw Field
+		for (int x = 0; x < nFieldWidth; x++)
+			for (int y = 0; y < nFieldHeight; y++)
+				screen[(y + 2)*nScreenWidth + (x + 2)] = L" ABCDEFG=#"[pField[y*nFieldWidth + x]];
 		
 		// Dsiplay Frame
 		WriteConsoleOutputCharacter(hConsole, screen, nScreenWidth * nScreenHeight, { 0,0
