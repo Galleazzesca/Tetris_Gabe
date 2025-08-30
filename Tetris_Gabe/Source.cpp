@@ -23,10 +23,34 @@ int Rotate(int px, int py, int r)
     return 0;
 }
 
+bool DoesPeiceFit(int nTetromino, int nRotation, int nPosX, int nPosY)
+{
+    for (int px = 0; px < 4; px++)
+		for (int py = 0; py < 4; py++)
+		{
+            // Get index into peice
+			int pi = Rotate(px, py, nRotation);
+
+			// Get index into field
+			int fi = (nPosY + py) * nFieldWidth + (nPosX + px);
+
+			if (nPosX + px >= 0 && nPosX + px < nFieldWidth)
+			{
+				if (nPosY + py) >= 0 && nPosY + py < nFieldHeight
+				{
+		            if (tetromino[nTetromino][pi] == L'X' && pField[fi] != 0)
+					    return false; // fail on first hit
+				}
+			}
+		}
+
+	
+    return true;
+}
 
 int main()
 {
- // create assests
+    // create assests
 	tetromino[0].append(L"..X.");
 	tetromino[0].append(L"..X.");
 	tetromino[0].append(L"..X.");
@@ -73,12 +97,26 @@ int main()
     SetConsoleActiveScreenBuffer(hCosole);
     DWORD dwBytesWritten = 0;
 
-	bool bGameOver = false;
+
+
+bool bGameOver = false;
+
+
 
 	while (!bGameOver)
 	{
+		// GAME TIME ===================================
 
-        // Draw Field
+
+        // INPUT =======================================
+		
+
+        // GAME LOGIC ==================================
+	
+
+        // RENDER OUTPUT ===============================
+
+		// Draw Field
 		for (int x = 0; x < nFieldWidth; x++)
 			for (int y = 0; y < nFieldHeight; y++)
 				screen[(y + 2)*nScreenWidth + (x + 2)] = L" ABCDEFG=#"[pField[y*nFieldWidth + x]];
