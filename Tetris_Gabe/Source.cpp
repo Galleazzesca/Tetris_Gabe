@@ -23,7 +23,7 @@ int Rotate(int px, int py, int r)
 	return 0;
 }
 
-bool DoesPeiceFit(int nTetromino, int nRotation, int nPosX, int nPosY)
+bool DoesPieceFit(int nTetromino, int nRotation, int nPosX, int nPosY)
 {
 	for (int px = 0; px < 4; px++)
 		for (int py = 0; py < 4; py++)
