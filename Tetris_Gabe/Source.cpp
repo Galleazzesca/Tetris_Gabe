@@ -97,24 +97,20 @@ int main()
     SetConsoleActiveScreenBuffer(hCosole);
     DWORD dwBytesWritten = 0;
 
+    bool bGameOver = false;
 
-
-bool bGameOver = false;
-
-
-
-	while (!bGameOver)
+    while (!bGameOver)
 	{
-		// GAME TIME ===================================
+		// GAME TIME =====================================
 
 
-        // INPUT =======================================
+        // INPUT =========================================
 		
 
-        // GAME LOGIC ==================================
+        // GAME LOGIC ====================================
 	
 
-        // RENDER OUTPUT ===============================
+        // RENDER OUTPUT =================================
 
 		// Draw Field
 		for (int x = 0; x < nFieldWidth; x++)
