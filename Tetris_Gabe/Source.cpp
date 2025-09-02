@@ -86,8 +86,8 @@ int main()
 	tetromino[6].append(L".X..");
 	tetromino[6].append(L".X..");
 
-	pField =  new unsigned char[nFieldWidth*nFieldHieght]; // Create play field buffer
-	 for (int x = 0; x < nFieldWitdth; x++) // Board Boundary
+	pField =  new unsigned char[nFieldWidth*nFieldHeight]; // Create play field buffer
+	 for (int x = 0; x < nFieldWidtth; x++) // Board Boundary
 		 for (int y = 0; y < nFieldHeight; y++)
 			 pFeild[y*nFieldWidth + x] = (x == 0 || x == nFieldWidth - 1 || y == nFieldHeight - 1) ? 9 : 0;
 
