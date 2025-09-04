@@ -4,6 +4,7 @@ using namespace std;
 #include <Windows.h>
 #include <thread> // Not in the tutorial but required to get sleep command working
 #include <chrono> // Same as above
+#include <vector>
 
 wstring tetromino[7]; // Tetris blocks are called tetrominos
 int nFieldWidth = 12;
@@ -103,38 +104,96 @@ int main()
 	// Game Logic Stuff
 	bool bGameOver = false;
 
-	int nCurrentPiece = 0;
+	int nCurrentPiece = 6;
 	int nCurrentRotation = 0;
 	int nCurrentX = nFieldWidth / 2;
 	int nCurrentY = 0;
 	
 	bool bKey[4];
+	bool bRotateHold = false;
+
+	int nSpeed = 20;
+	int nSpeedCount = 0;
+	bool bForceDown = false;
+	int nPieceCount = 0;
+	int nScore = 0;
+
+	vector<int> vLines;
 
 	while (!bGameOver)
 	{
 		// GAME TIME ===================================
-		std::this_thread::sleep_for(std::chrono::milliseconds(50));
+		std::this_thread::sleep_for(std::chrono::milliseconds(50)); // Game Tick
+		nSpeedCount++;
+		bForceDown = (nSpeedCount == nSpeed);
 
 		// INPUT =======================================
-		for (int k = 0; k < 4; k++)                           //   R   L   D  Z
-			bKey[k] = (0x8000 & GetAsyncKeyState((unsigned char)("\x27\x25\x28Z"[k]))) != 0;
+		for (int k = 0; k < 4; k++)                           //   R   L   D   
+			bKey[k] = (0x8000 & GetAsyncKeyState((unsigned char)("\x27\x25\x28\x26"[k]))) != 0;
 
 		// GAME LOGIC ==================================
-		if (bKey[1])
+		nCurrentX += (bKey[0] && DoesPieceFit(nCurrentPiece, nCurrentRotation, nCurrentX + 1, nCurrentY)) ? 1 : 0;
+		nCurrentX -= (bKey[1] && DoesPieceFit(nCurrentPiece, nCurrentRotation, nCurrentX - 1, nCurrentY)) ? 1 : 0;
+		nCurrentY += (bKey[2] && DoesPieceFit(nCurrentPiece, nCurrentRotation, nCurrentX, nCurrentY + 1)) ? 1 : 0;
+		
+		if (bKey[3]) // I switched the rotate key as it felt more convenient with the buttons closr together
 		{
-			if (DoesPieceFit(nCurrentPiece, nCurrentRotation, nCurrentX - 1, nCurrentY))
+			nCurrentRotation += (!bRotateHold && DoesPieceFit(nCurrentPiece, nCurrentRotation + 1, nCurrentX, nCurrentY)) ? 1 : 0;
+			bRotateHold = true;
+		}
+		else
+			bRotateHold = false;
+
+
+		if (bForceDown)
+		{
+			if (DoesPieceFit(nCurrentPiece, nCurrentRotation, nCurrentX, nCurrentY + 1))
+				nCurrentY++; // It can move
+			else
 			{
-				nCurrentX = nCurrentX - 1;
+				// Lock piece in field
+				for (int px = 0; px < 4; px++)
+					for (int py = 0; py < 4; py++)
+						if (tetromino[nCurrentPiece][Rotate(px, py, nCurrentRotation)] == L'X')
+							pField[(nCurrentY + py) * nFieldWidth + (nCurrentX + px)] = nCurrentPiece + 1;
+
+				nPieceCount++;
+				if (nPieceCount % 10 == 0)
+					if (nSpeed >= 10) nSpeed--;
+
+				// Check for line clears
+				for (int py = 0; py < 4; py++)
+					if (nCurrentY + py < nFieldHeight - 1)
+					{
+						bool bLine = true;
+						for (int px = 1; px < nFieldWidth - 1; px++)
+							bLine &= (pField[(nCurrentY + py) * nFieldWidth + px]) != 0;
+						if (bLine)
+						{
+							// Remove Line, set to =
+							for (int px = 1; px < nFieldWidth - 1; px++)
+								pField[(nCurrentY + py) * nFieldWidth + px] = 8;
+
+							vLines.push_back(nCurrentY + py);
+						}
+					}
+
+				nScore += 25;
+				if (!vLines.empty()) nScore += (1 << vLines.size()) * 100;
+
+				// Choose next piece
+				nCurrentX = nFieldWidth / 2;
+				nCurrentY = 0;
+				nCurrentRotation = 0;
+				nCurrentPiece = rand() % 7;
+
+				// If piece does not fit
+				bGameOver = !DoesPieceFit(nCurrentPiece, nCurrentRotation, nCurrentX, nCurrentY);
 			}
+
+			nSpeedCount = 0;
 		}
 
-		if (bKey[0])
-		{
-			if (DoesPieceFit(nCurrentPiece, nCurrentRotation, nCurrentX + 1, nCurrentY))
-			{
-				nCurrentX = nCurrentX + 1;
-			}
-		}
 		// RENDER OUTPUT ===============================
 
 		// Draw Field
@@ -148,9 +207,34 @@ int main()
 				if (tetromino[nCurrentPiece][Rotate(px, py, nCurrentRotation)] == L'X')
 					screen[(nCurrentY + py + 2) * nScreenWidth + (nCurrentX + px + 2)] = nCurrentPiece + 65;
 
+		// Draw Score
+		swprintf_s(&screen[2 * nScreenWidth + nFieldWidth + 6], 16, L"SCORE: %8d", nScore);
+
+		if (!vLines.empty())
+		{
+			// Display Frame to draw lines
+			WriteConsoleOutputCharacter(hConsole, screen, nScreenWidth * nScreenHeight, { 0,0 }, &dwBytesWritten);
+			std::this_thread::sleep_for(std::chrono::milliseconds(400)); // Delay a bit
+
+			for (auto &v : vLines)
+				for (int px = 1; px < nFieldWidth - 1; px++)
+				{
+					for (int py = v; py > 0; py--)
+						pField[py * nFieldWidth + px] = pField[(py - 1) * nFieldWidth + px];
+					pField[px] = 0;
+				}
+
+			vLines.clear();
+		}
+
 		// Display Frame
 		WriteConsoleOutputCharacter(hConsole, screen, nScreenWidth * nScreenHeight, { 0,0 }, &dwBytesWritten);
-			}
-
-		return 0;
 	}
+
+	// Game Over
+	CloseHandle(hConsole);
+	cout << "Game Over!! Score: " << nScore << endl;
+	system("pause");
+		
+	return 0;
+}
