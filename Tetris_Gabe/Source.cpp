@@ -8,7 +8,7 @@ int nFieldWidth = 12;
 int nFieldHeight = 18;
 unsigned char* pField = nullptr;
 
-int nScreenWidth = 80;          // Console Screen Size X (Columns)
+int nScreenWidth = 120;         // This one was causing all of our problems as Windows has a unique way of handling console sizes
 int nScreenHeight = 30;         // Console Screen Size Y (rows)
 
 int Rotate(int px, int py, int r)
@@ -54,37 +54,37 @@ int main()
 	tetromino[0].append(L"..X.");
 	tetromino[0].append(L"..X.");
 	tetromino[0].append(L"..X.");
-	tetromino[0].append(L"..X.");
+	tetromino[0].append(L"..X."); // I-Block
 
 	tetromino[1].append(L"..X.");
 	tetromino[1].append(L".XX.");
 	tetromino[1].append(L".X..");
-	tetromino[1].append(L"....");
+	tetromino[1].append(L"...."); // S-Block
 
 	tetromino[2].append(L".X..");
 	tetromino[2].append(L".XX.");
 	tetromino[2].append(L"..X.");
-	tetromino[2].append(L"....");
+	tetromino[2].append(L"...."); // Z-Block
 
 	tetromino[3].append(L"....");
 	tetromino[3].append(L".XX.");
 	tetromino[3].append(L".XX.");
-	tetromino[3].append(L"....");
+	tetromino[3].append(L"...."); // O-Block
 
 	tetromino[4].append(L"..X.");
 	tetromino[4].append(L".XX.");
 	tetromino[4].append(L"..X.");
-	tetromino[4].append(L"....");
+	tetromino[4].append(L"...."); // T-Block
 
 	tetromino[5].append(L"....");
-	tetromino[5].append(L".XX.");
 	tetromino[5].append(L"..X.");
 	tetromino[5].append(L"..X.");
+	tetromino[5].append(L".XX."); // J-Block
 
 	tetromino[6].append(L"....");
-	tetromino[6].append(L".XX.");
 	tetromino[6].append(L".X..");
 	tetromino[6].append(L".X..");
+	tetromino[6].append(L".XX."); // L-Block
 
 	pField = new unsigned char[nFieldWidth * nFieldHeight]; // Create play field buffer
 	for (int x = 0; x < nFieldWidth; x++) // Board Boundary
