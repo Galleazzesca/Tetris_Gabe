@@ -4,7 +4,7 @@ using namespace std;
 #include <Windows.h>
 #include <thread> // Not in the tutorial but required to get sleep command working
 #include <chrono> // Same as above
-#include <vector
+#include <vector>
 
 wstring tetromino[7]; // Tetris blocks are called tetrominos
 int nFieldWidth = 12;
