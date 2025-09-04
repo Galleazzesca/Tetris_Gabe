@@ -2,8 +2,10 @@
 using namespace std;
 
 #include <Windows.h>
+#include <thread> // Not in the tutorial but required to get sleep command working
+#include <chrono> // Same as above
 
-wstring tetromino[7];
+wstring tetromino[7]; // Tetris blocks are called tetrominos
 int nFieldWidth = 12;
 int nFieldHeight = 18;
 unsigned char* pField = nullptr;
@@ -98,28 +100,53 @@ int main()
 	DWORD dwBytesWritten = 0;
 
 
-
+	// Game Logic Stuff
 	bool bGameOver = false;
 
-
+	int nCurrentPiece = 0;
+	int nCurrentRotation = 0;
+	int nCurrentX = nFieldWidth / 2;
+	int nCurrentY = 0;
+	
+	bool bKey[4];
 
 	while (!bGameOver)
 	{
 		// GAME TIME ===================================
-
+		std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
 		// INPUT =======================================
-
+		for (int k = 0; k < 4; k++)                           //   R   L   D  Z
+			bKey[k] = (0x8000 & GetAsyncKeyState((unsigned char)("\x27\x25\x28Z"[k]))) != 0;
 
 		// GAME LOGIC ==================================
+		if (bKey[1])
+		{
+			if (DoesPieceFit(nCurrentPiece, nCurrentRotation, nCurrentX - 1, nCurrentY))
+			{
+				nCurrentX = nCurrentX - 1;
+			}
+		}
 
-
+		if (bKey[0])
+		{
+			if (DoesPieceFit(nCurrentPiece, nCurrentRotation, nCurrentX + 1, nCurrentY))
+			{
+				nCurrentX = nCurrentX + 1;
+			}
+		}
 		// RENDER OUTPUT ===============================
 
 		// Draw Field
 		for (int x = 0; x < nFieldWidth; x++)
 			for (int y = 0; y < nFieldHeight; y++)
 				screen[(y + 2) * nScreenWidth + (x + 2)] = L" ABCDEFG=#"[pField[y * nFieldWidth + x]];
+
+		// Draw Current Piece
+		for (int px = 0; px < 4; px++)
+			for (int py = 0; py < 4; py++)
+				if (tetromino[nCurrentPiece][Rotate(px, py, nCurrentRotation)] == L'X')
+					screen[(nCurrentY + py + 2) * nScreenWidth + (nCurrentX + px + 2)] = nCurrentPiece + 65;
 
 		// Display Frame
 		WriteConsoleOutputCharacter(hConsole, screen, nScreenWidth * nScreenHeight, { 0,0 }, &dwBytesWritten);
